@@ -46,14 +46,16 @@
     </v-app-bar>
 
     <v-main>
+      <v-overlay :value="$accessor.loading"
+        absolute>
+        <v-progress-circular
+          :size="50"
+          color="primary"
+          indeterminate
+        ></v-progress-circular>
+      </v-overlay>
+
       <v-container>
-        <v-overlay :value="$accessor.loading">
-          <v-progress-circular
-            :size="50"
-            color="primary"
-            indeterminate
-          ></v-progress-circular>
-        </v-overlay>
         <Nuxt />
       </v-container>
     </v-main>

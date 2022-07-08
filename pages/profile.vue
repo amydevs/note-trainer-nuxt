@@ -6,8 +6,12 @@ import Vue from 'vue'
 export default Vue.extend({
   data() {
     return {
-      loading: false
     }
+  },
+  async mounted() {
+    this.$accessor.SET_LOADING(true);
+    await this.get_profile();
+    this.$accessor.SET_LOADING(false);
   },
   methods: {
     async get_profile() {
