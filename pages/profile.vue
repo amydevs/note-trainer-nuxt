@@ -10,7 +10,26 @@ export default Vue.extend({
     }
   },
   methods: {
-    async getProfile() {
+    async get_profile() {
+      try {
+        this.$accessor.SET_LOADING(true);
+
+        let { data, error, status } = await this.$supabase
+          .from("user_info")
+          .select(`username`)
+          .eq("id", this.$accessor.user?.id)
+          .single()
+
+        if (error && status !== 406) throw error
+
+        if (data) {
+          console.log(data);
+        }
+      } catch (error: any) {
+        alert(error.message)
+      } finally {
+        this.$accessor.SET_LOADING(false);
+      }
     }
   }
 })

@@ -7,12 +7,11 @@
   </v-form>
 </template>
 <script lang="ts">
-import Vue from 'vue'
+import Vue, { computed } from 'vue'
 export default Vue.extend({
   data() {
     return {
       email: '',
-      loading: false
     }
   },
 

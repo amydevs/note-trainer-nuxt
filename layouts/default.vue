@@ -9,9 +9,9 @@
     >
       <v-list>
         <v-list-item
-          v-for="(item, i) in items"
+          v-for="(item, i) in nav_routes"
           :key="i"
-          :to="item.to"
+          :to="item.path"
           router
           exact
         >
@@ -36,7 +36,7 @@
         <v-icon>mdi-login-variant</v-icon>
       </v-btn>
       <div v-else>
-        <v-btn icon>
+        <v-btn icon to="profile">
           <v-icon>mdi-account-circle</v-icon>
         </v-btn>
         <v-btn icon @click="logout">
@@ -68,24 +68,15 @@
 </template>
 
 <script>
+import { routes } from '~/modules/routes';
+
 export default {
   data () {
     return {
       clipped: true,
       drawer: false,
       fixed: false,
-      items: [
-        {
-          icon: 'mdi-home',
-          title: 'Home',
-          to: '/'
-        },
-        {
-          icon: 'mdi-chart-bubble',
-          title: 'Inspire',
-          to: '/inspire'
-        }
-      ],
+      routes,
       miniVariant: false,
       title: 'Vuetify.js'
     }
@@ -100,6 +91,22 @@ export default {
     async logout() {
       await this.$supabase.auth.signOut();
       this.$accessor.SET_USER(null);
+    }
+  },
+  computed: {
+    nav_routes() {
+      return this.routes.filter(route => {
+        if (!route.unlogged_in_only && !route.logged_in_only) {
+          return true;
+        }
+
+        if (this.$accessor.user) {
+          return route.logged_in_only && route.show_in_nav;
+        }
+        else {
+          return route.unlogged_in_only && route.show_in_nav;
+        }
+      });
     }
   }
 }
