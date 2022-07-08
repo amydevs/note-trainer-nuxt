@@ -93,8 +93,8 @@ export default {
     })
   },
   methods: {
-    async logout() {
-      await this.$supabase.auth.signOut();
+    logout() {
+      this.$supabase.auth.signOut();
 
       if (
         routes.findIndex((e) => {
