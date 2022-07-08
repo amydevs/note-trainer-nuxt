@@ -44,11 +44,20 @@
         </v-btn>
       </div>
     </v-app-bar>
+
     <v-main>
       <v-container>
+        <v-overlay :value="$accessor.loading">
+          <v-progress-circular
+            :size="50"
+            color="primary"
+            indeterminate
+          ></v-progress-circular>
+        </v-overlay>
         <Nuxt />
       </v-container>
     </v-main>
+
     <v-footer
       :absolute="!fixed"
       app

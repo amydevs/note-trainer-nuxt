@@ -12,6 +12,7 @@ export default Vue.extend({
   data() {
     return {
       email: '',
+      loading: false
     }
   },
 
@@ -19,6 +20,7 @@ export default Vue.extend({
     async handle_login() {
       console.log("Logging in...");
       try {
+        this.$accessor.SET_LOADING(true);
         const { user, error } = await this.$supabase.auth.signIn({ email: this.email })
         if (error) throw error
 
@@ -29,6 +31,7 @@ export default Vue.extend({
       } catch (error: any) {
         alert(error.error_description || error.message)
       } finally {
+        this.$accessor.SET_LOADING(false);
       }
     }
   }
