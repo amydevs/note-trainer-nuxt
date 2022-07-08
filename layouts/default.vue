@@ -83,6 +83,10 @@ export default {
     }
   },
   async mounted() {
+    this.$router.beforeEach((_to, _from) => {
+      this.$accessor.SET_LOADING(false);
+    });
+
     this.$accessor.SET_USER(await this.$supabase.auth.user());
     this.$supabase.auth.onAuthStateChange((event, session) => {
       if (event == "SIGNED_OUT") {
