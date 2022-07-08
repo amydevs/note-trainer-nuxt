@@ -76,26 +76,38 @@ export default {
       clipped: true,
       drawer: false,
       fixed: false,
-      routes,
       miniVariant: false,
       title: 'Vuetify.js'
     }
   },
   async mounted() {
     this.$accessor.SET_USER(await this.$supabase.auth.user());
-    this.$supabase.auth.onAuthStateChange((_, session) => {
-      this.$accessor.SET_USER(session.user)
+    this.$supabase.auth.onAuthStateChange((event, session) => {
+      if (event == "SIGNED_OUT") {
+        this.$accessor.SET_USER(null);
+        console.log("Logged out...");
+      }
+      else {
+        this.$accessor.SET_USER(session.user);
+      }
     })
   },
   methods: {
     async logout() {
       await this.$supabase.auth.signOut();
-      this.$accessor.SET_USER(null);
+
+      if (
+        routes.findIndex((e) => {
+          return (this.$router.match(e.path).hash == this.$route.hash) && e.logged_in_only
+        }) !== -1
+      ) {
+        this.$router.push('/');
+      }
     }
   },
   computed: {
     nav_routes() {
-      return this.routes.filter(route => {
+      return routes.filter(route => {
         if (!route.unlogged_in_only && !route.logged_in_only) {
           return true;
         }

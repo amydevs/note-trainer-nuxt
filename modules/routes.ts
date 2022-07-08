@@ -14,6 +14,7 @@ export const routes = [
   {
     title: 'Profile',
     path: '/profile',
+    icon: 'mdi-account',
     show_in_nav: true,
     logged_in_only: true
   },
