@@ -1,4 +1,5 @@
 import colors from 'vuetify/es5/util/colors'
+require('dotenv').config();
 
 export default {
   // Target: https://go.nuxtjs.dev/config-target
@@ -25,6 +26,7 @@ export default {
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: [
+    { src: '~/plugins/vexflow.ts', ssr: false },
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
@@ -36,6 +38,7 @@ export default {
     '@nuxt/typescript-build',
     // https://go.nuxtjs.dev/vuetify
     '@nuxtjs/vuetify',
+    'nuxt-typed-vuex'
   ],
 
   // Modules: https://go.nuxtjs.dev/config-modules
@@ -44,6 +47,10 @@ export default {
     '@nuxtjs/axios',
     // https://go.nuxtjs.dev/pwa
     '@nuxtjs/pwa',
+    ['nuxt-supabase', {
+      supabaseKey: process.env.SUPABASE_KEY,
+      supabaseUrl: process.env.SUPABASE_URL
+    }],
   ],
 
   // Axios module configuration: https://go.nuxtjs.dev/config-axios

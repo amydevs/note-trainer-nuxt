@@ -30,25 +30,55 @@
       app
     >
       <v-app-bar-nav-icon @click.stop="drawer = !drawer" />
+      <v-btn
+        icon
+        @click.stop="miniVariant = !miniVariant"
+      >
+        <v-icon>mdi-{{ `chevron-${miniVariant ? 'right' : 'left'}` }}</v-icon>
+      </v-btn>
+      <v-btn
+        icon
+        @click.stop="clipped = !clipped"
+      >
+        <v-icon>mdi-application</v-icon>
+      </v-btn>
+      <v-btn
+        icon
+        @click.stop="fixed = !fixed"
+      >
+        <v-icon>mdi-minus</v-icon>
+      </v-btn>
       <v-toolbar-title v-text="title" />
       <v-spacer />
-      <v-btn v-if="!$accessor.user" to="login" icon>
-        <v-icon>mdi-login-variant</v-icon>
+      <v-btn
+        icon
+        @click.stop="rightDrawer = !rightDrawer"
+      >
+        <v-icon>mdi-menu</v-icon>
       </v-btn>
-      <div v-else>
-        <v-btn icon>
-          <v-icon>mdi-account-circle</v-icon>
-        </v-btn>
-        <v-btn icon @click="logout">
-          <v-icon>mdi-logout-variant</v-icon>
-        </v-btn>
-      </div>
     </v-app-bar>
     <v-main>
       <v-container>
         <Nuxt />
       </v-container>
     </v-main>
+    <v-navigation-drawer
+      v-model="rightDrawer"
+      :right="right"
+      temporary
+      fixed
+    >
+      <v-list>
+        <v-list-item @click.native="right = !right">
+          <v-list-item-action>
+            <v-icon light>
+              mdi-repeat
+            </v-icon>
+          </v-list-item-action>
+          <v-list-item-title>Switch drawer (click me)</v-list-item-title>
+        </v-list-item>
+      </v-list>
+    </v-navigation-drawer>
     <v-footer
       :absolute="!fixed"
       app
@@ -60,6 +90,7 @@
 
 <script>
 export default {
+  name: 'DefaultLayout',
   data () {
     return {
       clipped: false,
@@ -67,8 +98,8 @@ export default {
       fixed: false,
       items: [
         {
-          icon: 'mdi-home',
-          title: 'Home',
+          icon: 'mdi-apps',
+          title: 'Welcome',
           to: '/'
         },
         {
@@ -78,19 +109,9 @@ export default {
         }
       ],
       miniVariant: false,
+      right: true,
+      rightDrawer: false,
       title: 'Vuetify.js'
-    }
-  },
-  async mounted() {
-    this.$accessor.SET_USER(await this.$supabase.auth.user());
-    this.$supabase.auth.onAuthStateChange((_, session) => {
-      this.$accessor.SET_USER(session.user)
-    })
-  },
-  methods: {
-    async logout() {
-      await this.$supabase.auth.signOut();
-      this.$accessor.SET_USER(null);
     }
   }
 }
