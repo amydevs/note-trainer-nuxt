@@ -4,6 +4,7 @@ require('dotenv').config();
 export default {
   // Target: https://go.nuxtjs.dev/config-target
   target: 'static',
+  ssr: process.env.NODE_ENV === 'production',
 
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
