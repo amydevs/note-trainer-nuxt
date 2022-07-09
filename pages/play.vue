@@ -4,8 +4,8 @@
         <v-card>
           <note-renderer id="noterender" ref="noterender" />
         </v-card>
-        <v-card class="mt-3 d-flex" style="height: 100%">
-          <v-card-text class="overflow-x-auto text-no-wrap piano_wrapper">
+        <v-card class="mt-3 pa-3 d-flex justify-center" style="height: 100%">
+          <div class="overflow-x-auto text-no-wrap piano_wrapper">
             <v-btn
               v-for="(note_letter, i) in get_note_letter_rot()"
               :class="`piano_${note_letter.length === 1 ? 'major' : 'minor'}_key`"
@@ -13,7 +13,7 @@
               >
               {{ note_letter }}
             </v-btn>
-          </v-card-text>
+          </div>
         </v-card>
       </v-flex>
     </v-container>
@@ -133,7 +133,6 @@ export default Vue.extend({
     }
   }
   .piano_wrapper {
-    text-align: center;
     .piano_major_key {
       height: 100% !important;
       min-width: 10px !important;
