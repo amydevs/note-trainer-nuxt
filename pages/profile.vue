@@ -1,10 +1,17 @@
 <template>
-  <v-form @submit.prevent="update_profile">
-    <v-text-field label="Username" v-model="user_info.username" />
-    <v-btn type="submit">
-      Save
-    </v-btn>
-  </v-form>
+  <v-card>
+    <v-card-text>
+      <v-form @submit.prevent="update_profile">
+        <v-text-field hide-details="auto" label="Username" v-model="user_info.username" />
+        <div>
+          Created {{ get_date(user_info.created_at) }}
+        </div>
+        <v-btn type="submit">
+          Save
+        </v-btn>
+      </v-form>
+    </v-card-text>
+  </v-card>
 </template>
 <script lang="ts">
 import Vue from 'vue'
@@ -36,6 +43,10 @@ export default Vue.extend({
       {
         this.user_info = prom ? prom : this.user_info
       }
+    },
+    get_date(date: string) {
+      let d = new Date(date);
+      return `${d.toLocaleDateString()} ${d.toLocaleTimeString()}`;
     }
   }
 })

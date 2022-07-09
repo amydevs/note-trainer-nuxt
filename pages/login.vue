@@ -1,10 +1,14 @@
 <template>
-  <v-form @submit.prevent="handle_login">
-    <v-text-field label="Email" v-model="email" />
-    <v-btn type="submit">
-      Login
-    </v-btn>
-  </v-form>
+  <v-card>
+    <v-form @submit.prevent="handle_login">
+      <v-card-text>
+          <v-text-field label="Email" v-model="email" />
+          <v-btn type="submit">
+            Login
+          </v-btn>
+      </v-card-text>
+    </v-form>
+  </v-card>
 </template>
 <script lang="ts">
 import Vue, { computed } from 'vue'

@@ -1,6 +1,7 @@
 export interface UserInfo {
   id: string;
   username: string;
+  created_at: string;
 }
 
 export async function get_info(vm: Vue, id: string) {
