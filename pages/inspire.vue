@@ -25,24 +25,23 @@ export default Vue.extend({
     },
 
     mounted() {
+      console.log((this.$refs['noterender'] as any).$el)
+      const VF = this.$vex;
+      // Create a VexFlow renderer attaced to the DIV element "boo"
+      var renderer = new VF.Renderer((this.$refs['noterender'] as any)?.$el, VF.Renderer.Backends.SVG)
 
-        console.log((this.$refs['noterender'] as any).$el)
-        const VF = this.$vex;
-        // Create a VexFlow renderer attaced to the DIV element "boo"
-        var renderer = new VF.Renderer((this.$refs['noterender'] as any)?.$el, VF.Renderer.Backends.SVG)
+      // Configure the rendering context.
+      const context = renderer.getContext();
+      context.setFont("Arial", 10, 10).setBackgroundFillStyle("#eed");
 
-        // Configure the rendering context.
-        const context = renderer.getContext();
-        context.setFont("Arial", 10, 10).setBackgroundFillStyle("#eed");
+      // Create a stave of width 400 at position 10, 40 on the canvas.
+      const stave = new VF.Stave(10, 40, 400);
 
-        // Create a stave of width 400 at position 10, 40 on the canvas.
-        const stave = new VF.Stave(10, 40, 400);
+      // Add a clef and time signature.
+      stave.addClef('treble').addTimeSignature('4/4');
 
-        // Add a clef and time signature.
-        stave.addClef('treble').addTimeSignature('4/4');
-
-        // Connect it to the rendering context and draw!
-        stave.setContext(context).draw();
+      // Connect it to the rendering context and draw!
+      stave.setContext(context).draw();
     }
 })
 </script>
