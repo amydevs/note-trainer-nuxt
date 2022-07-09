@@ -6,9 +6,9 @@ export const routes = [
     show_in_nav: true
   },
   {
-    title: 'Inspire',
-    path: '/inspire',
-    icon: 'mdi-chart-bubble',
+    title: 'Play',
+    path: '/play',
+    icon: 'mdi-play',
     show_in_nav: true
   },
   {

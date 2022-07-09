@@ -1,5 +1,5 @@
 <template>
-  <div class="render" :id="dark.toString()"></div>
+  <div :class="`render ${dark}`"></div>
 </template>
 
 <script lang="ts">
@@ -25,10 +25,10 @@ export default Vue.extend({
 </script>
 
 <style lang="scss" scoped>
-#true {
+.true {
   --color-var: white;
 }
-#false {
+.false {
   --color-var: black;
 }
 .render {
