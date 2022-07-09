@@ -22,18 +22,11 @@ export default Vue.extend({
     },
     data() {
       return {
-
-        indexOfArray: 0,
-        randomchars: [],
-
         enable_treble: true,
         enable_bass: true,
-        showNotation: true,
-        playSynth: true,
-        showSettings: false,
-        showHelp: false,
 
-        renderer: undefined,
+        selected_note: null as Note | null,
+
         min_max_treble: new MinMaxNote(
           new Note("A", 4),
           new Note("C", 5)
@@ -46,19 +39,25 @@ export default Vue.extend({
     },
 
     mounted() {
-      const VF = this.$vex;
-      const vf = new VF.Factory({
-        renderer: { elementId: 'noterender', width: 500, height: 200 },
-      });
-      this.refresh(vf);
+      this.refresh()
+      this.refresh()
     },
     methods: {
-      refresh(vf: Factory) {
+      refresh() {
+        let note_render_el = (this.$refs.noterender as Vue).$el;
+        if (note_render_el.firstChild) {
+          note_render_el.removeChild(note_render_el.firstChild);
+        }
 
+        const vf = new this.$vex.Factory({
+          renderer: { elementId: 'noterender', width: 500, height: 200 },
+        });
         const score = vf.EasyScore();
         const system = vf.System();
 
         let { note, clef, accidental } = this.randomizer();
+
+        this.selected_note = note;
 
         console.log(note.to_easyscore(accidental))
 
