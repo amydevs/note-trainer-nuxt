@@ -8,7 +8,7 @@
 </template>
 <script lang="ts">
 import Vue from 'vue'
-import { UserInfo } from '~/modules/user/info'
+import { UserInfo, update_info, get_info } from '~/modules/user/info'
 
 export default Vue.extend({
   data() {
@@ -25,46 +25,16 @@ export default Vue.extend({
   },
   methods: {
     async get_profile() {
-      try {
-        this.$accessor.SET_LOADING(true);
-
-        let { data, error, status } = await this.$supabase
-          .from("user_info")
-          .select(`*`)
-          .eq("id", this.$accessor.saved.user?.id)
-          .single()
-
-        if (error && status !== 406) throw error
-        else {
-          await this.update_profile();
-        }
-
-        if (data) {
-          this.user_info = data;
-        }
-      } catch (error: any) {
-        alert(error.message)
-      } finally {
-        this.$accessor.SET_LOADING(false);
+      let prom = await get_info(this, this.user_info.id)
+      {
+        this.user_info = prom ? prom : this.user_info
       }
     },
 
     async update_profile() {
-      try {
-        this.$accessor.SET_LOADING(true);
-
-        let { data, error } = await this.$supabase.from("user_info").upsert(this.user_info);
-
-        let found_data = (data as UserInfo[] | null)?.at(0);
-        if (found_data) {
-          this.user_info = found_data;
-        }
-
-        if (error) throw error
-      } catch (error: any) {
-        alert(error.message)
-      } finally {
-        this.$accessor.SET_LOADING(false);
+      let prom = await update_info(this, this.user_info)
+      {
+        this.user_info = prom ? prom : this.user_info
       }
     }
   }
