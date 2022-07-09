@@ -5,9 +5,13 @@
           <note-renderer id="noterender" ref="noterender" />
         </v-card>
         <v-card class="mt-3 d-flex" style="height: 100%">
-          <v-card-text>
-            <v-btn v-for="">
-
+          <v-card-text class="overflow-x-auto flex-nowrap">
+            <v-btn
+              v-for="(note_letter, i) in get_note_letter_rot()"
+              :style="`height: ${note_letter.length === 1 ? 100 : 50}`+'%;'"
+              :key="i"
+              >
+              {{ note_letter }}
             </v-btn>
           </v-card-text>
         </v-card>
@@ -21,7 +25,7 @@ import Vue from 'vue'
 
 import NoteRenderer from "~/components/NoteRender.vue";
 
-import { Note, Clef, Accidental, note_letters } from '~/modules/note'
+import { Note, Clef, Accidental, NoteLetter, note_letters } from '~/modules/note'
 import { Randomizer, MinMaxNote } from '~/modules/note/randomizer'
 
 export default Vue.extend({
@@ -101,17 +105,13 @@ export default Vue.extend({
       random_num_from_interval(min: number, max: number) { // min and max included
         return Math.floor(Math.random() * (max - min + 1) + min)
       },
-      array_rotate(arr: Array<any>, by?: number, reverse?: boolean) {
-        if (Number(by) <= 0) {
-          by = 1;
-        }
 
-        for (let _ of Array(by).keys()) {
-          if (reverse) arr.unshift(arr.pop());
-          else arr.push(arr.shift());
-        }
-
-        return arr;
+      get_note_letter_rot() {
+        return this.array_rotate([...note_letters], 3);
+      },
+      array_rotate<T,>(arr: Array<T>, n: number) {
+        n = n % arr.length;
+        return arr.slice(n, arr.length).concat(arr.slice(0, n));
       }
     }
 })
