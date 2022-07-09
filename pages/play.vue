@@ -8,6 +8,7 @@
           <div class="overflow-x-auto text-no-wrap piano_wrapper">
             <v-btn
               v-for="(note_letter, i) in get_note_letter_rot()"
+              :color="note_letter.length === 1 ? '' : 'primary'"
               :class="`piano_${note_letter.length === 1 ? 'major' : 'minor'}_key`"
               :key="i"
               >
