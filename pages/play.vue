@@ -1,6 +1,8 @@
 <template>
     <div id="inspire">
+      <v-card>
         <note-renderer id="noterender" ref="noterender" />
+      </v-card>
         <div class="button-grid">
           <!-- <button class="reroll" v-for="note in notes" :key="note">{{note}}</button> -->
         </div>
@@ -50,7 +52,7 @@ export default Vue.extend({
         }
 
         const vf = new this.$vex.Factory({
-          renderer: { elementId: 'noterender', width: 500, height: 200 },
+          renderer: { elementId: 'noterender', width: 300, height: 130 },
         });
         const score = vf.EasyScore();
         const system = vf.System();
@@ -71,6 +73,16 @@ export default Vue.extend({
           .addTimeSignature('4/4');
 
         vf.draw();
+
+        if (note_render_el.firstChild) {
+          try {
+            let svg_el = (note_render_el.firstChild as SVGElement);
+            let view_box = ((svg_el.attributes as any).viewBox.value as string).split(" ");
+            view_box[0] = (Number(view_box[3]) / -1.5).toString();
+            svg_el.setAttribute("viewBox", view_box.join(" "))
+          }
+          catch (_) {}
+        }
       },
       randomizer() {
         let random_clefs = [
@@ -88,5 +100,18 @@ export default Vue.extend({
 </script>
 
 <style lang="scss" scoped>
-
+  #noterender {
+    position: relative;
+    height: 0;
+    width: 100%;
+    padding: 0;
+    padding-bottom: 50%;
+    :deep(svg) {
+      position: absolute;
+      height: 100%;
+      width: 100%;
+      left: 0;
+      top: 0;
+    }
+  }
 </style>
