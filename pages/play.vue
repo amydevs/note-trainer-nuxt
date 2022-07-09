@@ -1,12 +1,13 @@
 <template>
-    <div id="inspire">
-      <v-card>
-        <note-renderer id="noterender" ref="noterender" />
-      </v-card>
-        <div class="button-grid">
-          <!-- <button class="reroll" v-for="note in notes" :key="note">{{note}}</button> -->
-        </div>
-    </div>
+    <v-container fill-height>
+      <v-flex fill-height class="d-flex flex-column">
+        <v-card>
+          <note-renderer id="noterender" ref="noterender" />
+        </v-card>
+        <v-card class="align-self-stretch" style="height: 100%">
+        </v-card>
+      </v-flex>
+    </v-container>
 </template>
 
 <script lang="ts">
