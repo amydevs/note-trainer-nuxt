@@ -4,9 +4,7 @@ import { User } from 'nuxt-supabase'
 
 const vuex_plugin: Plugin = ({ store }) => {
   new VuexPersistence({
-    filter: (mutation) => {
-      return mutation.type === 'SET_USER';
-    }
+    modules: ['saved']
   }).plugin(store);
 }
 

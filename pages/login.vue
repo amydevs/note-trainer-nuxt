@@ -25,7 +25,7 @@ export default Vue.extend({
 
         alert("Check your email for the login link!")
 
-        this.$accessor.SET_USER(user);
+        this.$accessor.saved.SET_USER(user);
 
       } catch (error: any) {
         alert(error.error_description || error.message)
