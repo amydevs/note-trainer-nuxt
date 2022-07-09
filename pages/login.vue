@@ -1,15 +1,19 @@
 <template>
-  <v-container>
-    <v-card>
-      <v-form @submit.prevent="handle_login">
-        <v-card-text>
-            <v-text-field label="Email" v-model="email" />
-            <v-btn type="submit">
-              Login
-            </v-btn>
-        </v-card-text>
-      </v-form>
-    </v-card>
+  <v-container fill-height>
+    <v-row justify="center" align="center">
+      <v-col cols="12" sm="8" md="6">
+        <v-card>
+          <v-form @submit.prevent="handle_login">
+            <v-card-text>
+                <v-text-field label="Email" v-model="email" />
+                <v-btn type="submit">
+                  Login
+                </v-btn>
+            </v-card-text>
+          </v-form>
+        </v-card>
+      </v-col>
+    </v-row>
   </v-container>
 </template>
 <script lang="ts">

@@ -55,7 +55,7 @@
         ></v-progress-circular>
       </v-overlay>
 
-        <Nuxt />
+      <Nuxt />
     </v-main>
 
     <v-footer
