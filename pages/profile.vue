@@ -21,7 +21,7 @@ export default Vue.extend({
         let { data, error, status } = await this.$supabase
           .from("user_info")
           .select(`username`)
-          .eq("id", this.$accessor.user?.id)
+          .eq("id", this.$accessor.saved.user?.id)
           .single()
 
         if (error && status !== 406) throw error

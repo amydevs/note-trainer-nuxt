@@ -32,7 +32,7 @@
       <v-app-bar-nav-icon @click.stop="drawer = !drawer" />
       <v-toolbar-title v-text="title" />
       <v-spacer />
-      <v-btn v-if="!$accessor.user" to="login" icon>
+      <v-btn v-if="!$accessor.saved.user" to="login" icon>
         <v-icon>mdi-login-variant</v-icon>
       </v-btn>
       <div v-else>
@@ -119,7 +119,7 @@ export default {
           return true;
         }
 
-        if (this.$accessor.user) {
+        if (this.$accessor.saved.user) {
           return route.logged_in_only && route.show_in_nav;
         }
         else {
