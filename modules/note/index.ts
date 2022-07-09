@@ -3,17 +3,20 @@ export const note_letters = [ "A", "AB", "B", "C", "CD", "D", "DE", "E", "F", "F
 export type NoteLetter =  typeof note_letters[number];
 
 export function note_letter_to_easyscore(note_letter: NoteLetter, accidental: Accidental): string {
+  let nt: string = note_letter;
   if (note_letter.length > 1) {
     switch (accidental) {
       case Accidental.Flat:
-        return note_letter[1] + Accidental.Flat;
+        nt = note_letter[1] + Accidental.Flat;
         break;
       case Accidental.Sharp:
-        return note_letter[1] + Accidental.Sharp;
+        nt = note_letter[0] + Accidental.Sharp;
         break;
+      default:
+        nt = note_letter[0]
     }
   }
-  return note_letter;
+  return nt;
 }
 
 export enum Accidental {

@@ -36,7 +36,7 @@ export default Vue.extend({
         renderer: undefined,
         min_max_treble: new MinMaxNote(
           new Note("A", 4),
-          new Note("C", 6)
+          new Note("C", 5)
         ),
         min_max_bass: new MinMaxNote(
           new Note("A", 2),
@@ -59,6 +59,8 @@ export default Vue.extend({
         const system = vf.System();
 
         let { note, clef, accidental } = this.randomizer();
+
+        console.log(note.to_easyscore(accidental))
 
         system
           .addStave({

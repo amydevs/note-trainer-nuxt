@@ -37,7 +37,7 @@ export class Randomizer {
 
     let accidental = Accidental.Default;
     if (note_letter.length > 1) {
-      let accidentals = Object.values(Accidental);
+      let accidentals = Object.values(Accidental).filter(a => a !== Accidental.Default);
       accidental = accidentals[Math.floor(Math.random()*accidentals.length)]
     }
     // end randomization
