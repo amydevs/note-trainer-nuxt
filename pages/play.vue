@@ -2,11 +2,9 @@
     <v-container fill-height>
       <v-flex fill-height class="d-flex flex-column">
         <v-card>
-          <div class="overlay pa-4">
-            <h1>
-              Score: {{ score }}
-            </h1>
-          </div>
+          <v-toolbar dense>
+            <v-toolbar-title>Score: {{ score }}</v-toolbar-title>
+          </v-toolbar>
           <note-renderer id="noterender" ref="noterender" />
         </v-card>
         <v-card class="mt-3 pa-3 d-flex justify-center overflow-x-auto text-no-wrap piano_wrapper" style="height: 100%">
@@ -126,7 +124,7 @@ export default Vue.extend({
     height: 0;
     width: 100%;
     padding: 0;
-    padding-bottom: 50vh;
+    padding-bottom: 45vh;
     :deep(svg) {
       position: absolute;
       height: 100%;
