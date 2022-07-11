@@ -4,8 +4,7 @@
         <v-card>
           <note-renderer id="noterender" ref="noterender" />
         </v-card>
-        <v-card class="mt-3 pa-3 d-flex justify-center" style="height: 100%">
-          <div class="overflow-x-auto text-no-wrap piano_wrapper">
+        <v-card class="mt-3 pa-3 d-flex justify-center overflow-x-auto text-no-wrap piano_wrapper" style="height: 100%">
             <v-btn
               v-for="(note_letter, i) in get_note_letter_rot()"
               :color="note_letter.length === 1 ? '' : 'primary'"
@@ -14,7 +13,6 @@
               >
               {{ note_letter }}
             </v-btn>
-          </div>
         </v-card>
       </v-flex>
     </v-container>
