@@ -28,6 +28,19 @@
             </v-btn>
         </v-card>
       </v-flex>
+      <v-overlay
+        absolute
+        :value="is_failed"
+        >
+        <v-card class="pa-3 text-center">
+          <h1>
+            Score: {{ score }}
+          </h1>
+          <v-btn @click="play_again(score)">
+            OK
+          </v-btn>
+        </v-card>
+      </v-overlay>
     </v-container>
 </template>
 
@@ -121,10 +134,11 @@ export default Vue.extend({
         else {
           this.fails++;
         }
-
-        if (this.fails >= 3) {
-          console.log("fails")
-        }
+      },
+      play_again(final_score: number) {
+        this.score = final_score;
+        this.fails = 0;
+        this.refresh();
       },
 
       get_note_letter_rot() {
@@ -133,6 +147,15 @@ export default Vue.extend({
       array_rotate<T,>(arr: Array<T>, n: number) {
         n = n % arr.length;
         return arr.slice(n, arr.length).concat(arr.slice(0, n));
+      }
+    },
+    computed: {
+      is_failed(): boolean {
+        let failed = this.fails >= 3;
+        if (failed) {
+
+        }
+        return failed;
       }
     }
 })
