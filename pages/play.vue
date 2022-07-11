@@ -33,9 +33,9 @@
         :value="is_failed"
         >
         <v-card class="pa-3 text-center">
-          <h1>
+          <v-card-title>
             Score: {{ score }}
-          </h1>
+          </v-card-title>
           <v-btn @click="play_again(score)">
             OK
           </v-btn>
@@ -45,13 +45,14 @@
 </template>
 
 <script lang="ts">
-import { Factory } from 'vexflow';
 import Vue from 'vue'
 
 import NoteRenderer from "~/components/play/NoteRender.vue";
 
 import { Note, Clef, Accidental, NoteLetter, note_letters } from '~/modules/note'
 import { Randomizer, MinMaxNote } from '~/modules/note/randomizer'
+
+import { insert_score, Score } from '~/modules/user/score'
 
 export default Vue.extend({
     components: {
@@ -153,12 +154,13 @@ export default Vue.extend({
       is_failed(): boolean {
         let failed = this.fails >= 3;
         if (failed && this.$accessor.saved.user) {
-          this.$supabase.from("scores").insert({
+          this.$accessor.SET_LOADING(true);
+          insert_score(this, {
             score: this.score,
-            user_id: this.$accessor.saved.user.id,
-          }).then(({data, error}) => {
-            console.log(data)
-          });
+            user_id: this.$accessor.saved.user.id
+          }).then(() => {
+            this.$accessor.SET_LOADING(false);
+          })
         }
         return failed;
       }

@@ -25,10 +25,8 @@ export async function get_info(vm: Vue, id: string) {
   }
 }
 
-export async function update_info(vm: Vue, user_info: UserInfo) {
+export async function update_info(vm: Vue, user_info: Partial<UserInfo>) {
   try {
-    vm.$accessor.SET_LOADING(true);
-
     let { data, error } = await vm.$supabase.from("user_info").upsert(user_info);
 
     if (error) throw error
@@ -38,7 +36,5 @@ export async function update_info(vm: Vue, user_info: UserInfo) {
 
   } catch (error: any) {
     alert(error.message)
-  } finally {
-    vm.$accessor.SET_LOADING(false);
   }
 }
