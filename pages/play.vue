@@ -4,6 +4,10 @@
         <v-card>
           <v-toolbar dense>
             <v-toolbar-title>Score: {{ score }}</v-toolbar-title>
+            <v-spacer />
+            <v-btn icon>
+              <v-icon>mdi-cog</v-icon>
+            </v-btn>
           </v-toolbar>
           <note-renderer id="noterender" ref="noterender" />
         </v-card>
