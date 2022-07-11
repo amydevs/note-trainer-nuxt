@@ -5,10 +5,11 @@
           <v-toolbar dense>
             <v-toolbar-title>Score: {{ score }}</v-toolbar-title>
             <v-spacer />
-            <v-toolbar-title>Mistakes: {{ fails }}</v-toolbar-title>
             <v-btn icon>
               <v-icon>mdi-cog</v-icon>
             </v-btn>
+            <v-spacer />
+            <v-toolbar-title>Mistakes: {{ fails }}</v-toolbar-title>
           </v-toolbar>
           <note-renderer id="noterender" ref="noterender">
             <div class="d-flex overlay pa-3">
