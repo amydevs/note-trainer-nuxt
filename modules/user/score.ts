@@ -17,3 +17,13 @@ export async function insert_score(vm: Vue, score: Partial<Score>) {
     alert(error.message)
   }
 }
+
+export async function get_scores_from_user_id(vm: Vue, id: string) {
+  try {
+    let { data, error } = await vm.$supabase.from("scores").select(`*`).eq("user_id", id);
+    if (error) throw error;
+    return data as Score[];
+  } catch (error: any) {
+    alert(error.message)
+  }
+}
