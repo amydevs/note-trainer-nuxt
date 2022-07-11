@@ -8,6 +8,9 @@
             <v-btn icon>
               <v-icon>mdi-cog</v-icon>
             </v-btn>
+            <v-btn icon to="profile">
+              <v-icon>mdi-content-save</v-icon>
+            </v-btn>
             <v-spacer />
             <v-toolbar-title>Mistakes: {{ fails }}</v-toolbar-title>
           </v-toolbar>
