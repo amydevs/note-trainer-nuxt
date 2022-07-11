@@ -2,6 +2,11 @@
     <v-container fill-height>
       <v-flex fill-height class="d-flex flex-column">
         <v-card>
+          <div class="overlay pa-4">
+            <h1>
+              Score: {{ score }}
+            </h1>
+          </div>
           <note-renderer id="noterender" ref="noterender" />
         </v-card>
         <v-card class="mt-3 pa-3 d-flex justify-center overflow-x-auto text-no-wrap piano_wrapper" style="height: 100%">
@@ -37,6 +42,7 @@ export default Vue.extend({
         enable_bass: true,
 
         selected_note: null as Note | null,
+        score: 0,
 
         min_max_treble: new MinMaxNote(
           new Note("A", 4),
@@ -69,8 +75,6 @@ export default Vue.extend({
         let { note, clef, accidental } = this.randomizer();
 
         this.selected_note = note;
-
-        console.log(note.to_easyscore(accidental))
 
         system
           .addStave({
@@ -144,5 +148,12 @@ export default Vue.extend({
       width: 3vw;
       max-width: 64px;
     }
+  }
+  .overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
   }
 </style>
