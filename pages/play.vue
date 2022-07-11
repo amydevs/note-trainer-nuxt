@@ -20,6 +20,7 @@
               :color="note_letter.length === 1 ? '' : 'primary'"
               :class="`piano_${note_letter.length === 1 ? 'major' : 'minor'}_key`"
               :key="i"
+              @click="play_note(note_letter)"
               >
               {{ note_letter }}
             </v-btn>
@@ -61,8 +62,7 @@ export default Vue.extend({
     },
 
     mounted() {
-      this.refresh()
-      this.refresh()
+      this.refresh();
     },
     methods: {
       refresh() {
@@ -110,8 +110,11 @@ export default Vue.extend({
         let randomizer = new Randomizer(this.min_max_treble, this.min_max_bass, random_clefs);
         return randomizer.get_random();
       },
-      random_num_from_interval(min: number, max: number) { // min and max included
-        return Math.floor(Math.random() * (max - min + 1) + min)
+      play_note(e: NoteLetter) {
+        if (e === this.selected_note?.note) {
+          this.score++;
+          this.refresh();
+        }
       },
 
       get_note_letter_rot() {
