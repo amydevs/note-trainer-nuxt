@@ -10,7 +10,7 @@
 <script lang="ts">
 import Vue from 'vue'
 
-import NoteRenderer from "~/components/NoteRender.vue";
+import NoteRenderer from "~/components/play/NoteRender.vue";
 
 export default Vue.extend({
     components: {

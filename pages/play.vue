@@ -34,7 +34,7 @@
 import { Factory } from 'vexflow';
 import Vue from 'vue'
 
-import NoteRenderer from "~/components/NoteRender.vue";
+import NoteRenderer from "~/components/play/NoteRender.vue";
 
 import { Note, Clef, Accidental, NoteLetter, note_letters } from '~/modules/note'
 import { Randomizer, MinMaxNote } from '~/modules/note/randomizer'
