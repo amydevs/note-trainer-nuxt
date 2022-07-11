@@ -49,6 +49,7 @@ export default Vue.extend({
 
         selected_note: null as Note | null,
         score: 0,
+        fails: 0,
 
         min_max_treble: new MinMaxNote(
           new Note("A", 4),
@@ -114,6 +115,13 @@ export default Vue.extend({
         if (e === this.selected_note?.note) {
           this.score++;
           this.refresh();
+        }
+        else {
+          this.fails++;
+        }
+
+        if (this.fails >= 3) {
+          console.log("fails")
         }
       },
 
