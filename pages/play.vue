@@ -152,8 +152,13 @@ export default Vue.extend({
     computed: {
       is_failed(): boolean {
         let failed = this.fails >= 3;
-        if (failed) {
-
+        if (failed && this.$accessor.saved.user) {
+          this.$supabase.from("scores").insert({
+            score: this.score,
+            user_id: this.$accessor.saved.user.id,
+          }).then(({data, error}) => {
+            console.log(data)
+          });
         }
         return failed;
       }
