@@ -1,5 +1,7 @@
 <template>
-  <div :class="`render ${dark}`"></div>
+  <div :class="`render ${dark}`">
+    <slot></slot>
+  </div>
 </template>
 
 <script lang="ts">

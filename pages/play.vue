@@ -9,7 +9,10 @@
               <v-icon>mdi-cog</v-icon>
             </v-btn>
           </v-toolbar>
-          <note-renderer id="noterender" ref="noterender" />
+          <note-renderer id="noterender" ref="noterender">
+            <div class="d-flex overlay pa-3">
+            </div>
+          </note-renderer>
         </v-card>
         <v-card class="mt-3 pa-3 d-flex justify-center overflow-x-auto text-no-wrap piano_wrapper" style="height: 100%">
             <v-btn
