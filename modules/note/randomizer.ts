@@ -12,9 +12,9 @@ export class Randomizer {
       enabled_clefs = [Clef.Treble, Clef.Bass];
     }
 
-    let clef = enabled_clefs[Math.floor(Math.random()*enabled_clefs.length)];
+    let clef = random_element(enabled_clefs);
 
-    let note_letter = note_letters[Math.floor(Math.random()*enabled_clefs.length)];
+    let note_letter = random_element([...note_letters]);
 
     let min_max_note = new MinMaxNote(
       {
@@ -38,7 +38,7 @@ export class Randomizer {
     let accidental = Accidental.Default;
     if (note_letter.length > 1) {
       let accidentals = Object.values(Accidental).filter(a => a !== Accidental.Default);
-      accidental = accidentals[Math.floor(Math.random()*accidentals.length)]
+      accidental = random_element(accidentals);
     }
     // end randomization
 
@@ -66,6 +66,10 @@ export class Randomizer {
 
 function random_int_from_interval(min: number, max: number) { // min and max included
   return Math.floor(Math.random() * (max - min + 1) + min)
+}
+
+function random_element<T,>(array: T[]) {
+  return array[Math.floor(Math.random()*array.length)];
 }
 
 export class MinMaxNote {

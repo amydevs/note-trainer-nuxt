@@ -136,7 +136,7 @@ export default Vue.extend({
         }
       },
       play_again(final_score: number) {
-        this.score = final_score;
+        this.score = 0;
         this.fails = 0;
         this.refresh();
       },
