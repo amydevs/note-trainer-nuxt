@@ -67,10 +67,11 @@
   </v-app>
 </template>
 
-<script>
+<script lang="ts">
+import Vue from 'vue';
 import { routes } from '~/modules/routes';
 
-export default {
+export default Vue.extend({
   data () {
     return {
       clipped: true,
@@ -81,9 +82,21 @@ export default {
     }
   },
   async mounted() {
+    const need_to_redirect = (to_path: string) => {
+      const current_route_is_auth_only = routes.findIndex((e) => {
+        return (e.path === to_path && e.logged_in_only)
+      }) !== -1;
+      return !this.$accessor.saved.user && current_route_is_auth_only;
+    }
+
     this.$router.beforeEach((_to, _from, next) => {
       this.$accessor.SET_LOADING(false);
-      next();
+      if (need_to_redirect(_to.path)) {
+        return next({ path: '/login' });
+      }
+      else {
+        next();
+      }
     });
 
     this.$accessor.saved.SET_USER(await this.$supabase.auth.user());
@@ -93,7 +106,7 @@ export default {
         console.log("Logged out...");
       }
       else {
-        this.$accessor.saved.SET_USER(session.user);
+        this.$accessor.saved.SET_USER(session?.user);
       }
     })
   },
@@ -126,5 +139,5 @@ export default {
       });
     }
   }
-}
+});
 </script>
