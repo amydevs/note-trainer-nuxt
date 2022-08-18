@@ -5,9 +5,7 @@
           <v-toolbar dense>
             <v-toolbar-title>Score: {{ score }}</v-toolbar-title>
             <v-spacer />
-            <v-btn icon>
-              <v-icon>mdi-cog</v-icon>
-            </v-btn>
+            <play-settings v-model="play_settings" />
             <v-btn icon to="profile">
               <v-icon>mdi-content-save</v-icon>
             </v-btn>
@@ -54,120 +52,113 @@ import NoteRenderer from "~/components/play/NoteRender.vue";
 
 import { Note, Clef, Accidental, NoteLetter, note_letters } from '~/modules/note'
 import { Randomizer, MinMaxNote } from '~/modules/note/randomizer'
+import { PlaySettingsProps } from '~/modules/play/settings'
 
 import { insert_score, Score } from '~/modules/user/score'
+import PlaySettings from '~/components/play/PlaySettings.vue';
 
 export default Vue.extend({
-    components: {
-      NoteRenderer
-    },
-    data() {
-      return {
-        enable_treble: true,
-        enable_bass: true,
+  components: {
+    NoteRenderer,
+    PlaySettings
+  },
+  data() {
+    return {
+      selected_note: null as Note | null,
+      score: 0,
+      fails: 0,
 
-        selected_note: null as Note | null,
-        score: 0,
-        fails: 0,
+      play_settings: new PlaySettingsProps()
+    }
+  },
 
-        min_max_treble: new MinMaxNote(
-          new Note("A", 4),
-          new Note("C", 5)
-        ),
-        min_max_bass: new MinMaxNote(
-          new Note("A", 2),
-          new Note("C", 4)
-        ),
+  mounted() {
+    this.refresh();
+  },
+  methods: {
+    refresh() {
+      let note_render_el = (this.$refs.noterender as Vue).$el;
+      if (note_render_el.firstChild) {
+        note_render_el.removeChild(note_render_el.firstChild);
+      }
+
+      const vf = new this.$vex.Factory({
+        renderer: { elementId: 'noterender', width: 300, height: 130 },
+      });
+      const score = vf.EasyScore();
+      const system = vf.System();
+
+      let { note, clef, accidental } = this.randomizer();
+
+      this.selected_note = note;
+
+      system
+        .addStave({
+          voices: [
+            score.voice(score.notes(`${note.to_easyscore(accidental)}/w`, { clef, stem: 'up' })),
+          ],
+        })
+        .addClef(clef)
+        .addTimeSignature('4/4');
+
+      vf.draw();
+
+      if (note_render_el.firstChild) {
+        try {
+          let svg_el = (note_render_el.firstChild as SVGElement);
+          let view_box = ((svg_el.attributes as any).viewBox.value as string).split(" ");
+          view_box[0] = (Number(view_box[3]) / -1.5).toString();
+          svg_el.setAttribute("viewBox", view_box.join(" "))
+        }
+        catch (_) {}
       }
     },
-
-    mounted() {
+    randomizer() {
+      let random_clefs = [
+        ...this.play_settings.enable_treble ? [Clef.Treble] : [],
+        ...this.play_settings.enable_bass ? [Clef.Bass] : [],
+      ];
+      let randomizer = new Randomizer(this.play_settings.min_max_treble, this.play_settings.min_max_bass, random_clefs);
+      return randomizer.get_random();
+    },
+    play_note(e: NoteLetter) {
+      if (e === this.selected_note?.note) {
+        this.score++;
+        this.refresh();
+      }
+      else {
+        this.fails++;
+      }
+    },
+    play_again(final_score: number) {
+      this.score = 0;
+      this.fails = 0;
       this.refresh();
     },
-    methods: {
-      refresh() {
-        let note_render_el = (this.$refs.noterender as Vue).$el;
-        if (note_render_el.firstChild) {
-          note_render_el.removeChild(note_render_el.firstChild);
-        }
 
-        const vf = new this.$vex.Factory({
-          renderer: { elementId: 'noterender', width: 300, height: 130 },
-        });
-        const score = vf.EasyScore();
-        const system = vf.System();
-
-        let { note, clef, accidental } = this.randomizer();
-
-        this.selected_note = note;
-
-        system
-          .addStave({
-            voices: [
-              score.voice(score.notes(`${note.to_easyscore(accidental)}/w`, { clef, stem: 'up' })),
-            ],
-          })
-          .addClef(clef)
-          .addTimeSignature('4/4');
-
-        vf.draw();
-
-        if (note_render_el.firstChild) {
-          try {
-            let svg_el = (note_render_el.firstChild as SVGElement);
-            let view_box = ((svg_el.attributes as any).viewBox.value as string).split(" ");
-            view_box[0] = (Number(view_box[3]) / -1.5).toString();
-            svg_el.setAttribute("viewBox", view_box.join(" "))
-          }
-          catch (_) {}
-        }
-      },
-      randomizer() {
-        let random_clefs = [
-          ...this.enable_treble ? [Clef.Treble] : [],
-          ...this.enable_bass ? [Clef.Bass] : [],
-        ];
-        let randomizer = new Randomizer(this.min_max_treble, this.min_max_bass, random_clefs);
-        return randomizer.get_random();
-      },
-      play_note(e: NoteLetter) {
-        if (e === this.selected_note?.note) {
-          this.score++;
-          this.refresh();
-        }
-        else {
-          this.fails++;
-        }
-      },
-      play_again(final_score: number) {
-        this.score = 0;
-        this.fails = 0;
-        this.refresh();
-      },
-
-      get_note_letter_rot() {
-        return this.array_rotate([...note_letters], 3);
-      },
-      array_rotate<T,>(arr: Array<T>, n: number) {
-        n = n % arr.length;
-        return arr.slice(n, arr.length).concat(arr.slice(0, n));
-      }
+    get_note_letter_rot() {
+      return this.array_rotate([...note_letters], 3);
     },
-    computed: {
-      is_failed(): boolean {
-        let failed = this.fails >= 3;
-        if (failed && this.$accessor.saved.user) {
-          this.$accessor.SET_LOADING(true);
-          insert_score(this, {
-            score: this.score,
-            user_id: this.$accessor.saved.user.id
-          }).then(() => {
-            this.$accessor.SET_LOADING(false);
-          })
-        }
-        return failed;
-      }
+    array_rotate<T,>(arr: Array<T>, n: number) {
+      n = n % arr.length;
+      return arr.slice(n, arr.length).concat(arr.slice(0, n));
     }
+  },
+  computed: {
+    is_failed(): boolean {
+      let failed = this.fails >= 3;
+      if (failed && this.$accessor.saved.user) {
+        this.$accessor.SET_LOADING(true);
+        insert_score(this, {
+          score: this.score,
+          user_id: this.$accessor.saved.user.id
+        }).then(() => {
+          this.$accessor.SET_LOADING(false);
+        })
+      }
+      return failed;
+    }
+  }
 })
 </script>
 
