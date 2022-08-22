@@ -30,7 +30,14 @@ export default Vue.extend({
       console.log("Logging in...");
       try {
         this.$accessor.SET_LOADING(true);
-        const { user, error } = await this.$supabase.auth.signIn({ email: this.email })
+        const { user, error } = await this.$supabase.auth.signIn(
+          {
+             email: this.email,
+          },
+          {
+            redirectTo: window.location.origin
+          }
+        )
         if (error) throw error
 
         alert("Check your email for the login link!")
