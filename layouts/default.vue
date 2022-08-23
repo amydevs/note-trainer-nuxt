@@ -33,17 +33,17 @@
       <v-app-bar-nav-icon @click.stop="drawer = !drawer" />
       <v-toolbar-title v-text="title" />
       <v-spacer />
-      <v-btn @click="$accessor.saved.SET_DARK(!$accessor.saved.dark)" icon>
+      <v-btn @click="$accessor.saved.SET_DARK(!$accessor.saved.dark)" icon title="Toggle Theme">
         <v-icon>mdi-brightness-6</v-icon>
       </v-btn>
-      <v-btn v-if="!$accessor.saved.user" to="login" icon>
+      <v-btn v-if="!$accessor.saved.user" to="login" icon title="Login">
         <v-icon>mdi-login-variant</v-icon>
       </v-btn>
       <div v-else>
-        <v-btn icon to="profile">
+        <v-btn icon to="profile" title="Profile">
           <v-icon>mdi-account-circle</v-icon>
         </v-btn>
-        <v-btn icon @click="logout">
+        <v-btn icon @click="logout" title="Logout">
           <v-icon>mdi-logout-variant</v-icon>
         </v-btn>
       </div>
