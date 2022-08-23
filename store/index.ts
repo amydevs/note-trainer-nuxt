@@ -1,4 +1,3 @@
-import { User } from 'nuxt-supabase'
 import { getAccessorType, mutationTree, actionTree } from 'typed-vuex'
 
 import * as saved from './saved';
@@ -6,6 +5,7 @@ import * as saved from './saved';
 export const state = () => ({
   loading: false,
 })
+
 
 export const mutations = mutationTree(state, {
   SET_LOADING: (state, user: typeof state.loading) => (state.loading = user),

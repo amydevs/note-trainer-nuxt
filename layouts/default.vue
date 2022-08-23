@@ -33,6 +33,9 @@
       <v-app-bar-nav-icon @click.stop="drawer = !drawer" />
       <v-toolbar-title v-text="title" />
       <v-spacer />
+      <v-btn @click="$accessor.saved.SET_DARK(!$accessor.saved.dark)" icon>
+        <v-icon>mdi-brightness-6</v-icon>
+      </v-btn>
       <v-btn v-if="!$accessor.saved.user" to="login" icon>
         <v-icon>mdi-login-variant</v-icon>
       </v-btn>
@@ -83,6 +86,7 @@ export default Vue.extend({
     }
   },
   async mounted() {
+    this.$vuetify.theme.dark = this.$accessor.saved.dark;
     const need_to_redirect = (to_path: string) => {
       const current_route_is_auth_only = routes.findIndex((e) => {
         return (e.path === to_path && e.logged_in_only)
@@ -138,6 +142,11 @@ export default Vue.extend({
           return route.unlogged_in_only && route.show_in_nav;
         }
       });
+    }
+  },
+  watch: {
+    "$accessor.saved.dark": function(e) {
+      this.$vuetify.theme.dark = e
     }
   }
 });
