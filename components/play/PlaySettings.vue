@@ -10,6 +10,7 @@
         v-bind="attrs"
         v-on="on"
         icon
+        title="Settings"
       >
         <v-icon>mdi-cog</v-icon>
       </v-btn>

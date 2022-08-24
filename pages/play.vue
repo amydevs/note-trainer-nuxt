@@ -29,7 +29,7 @@
             <v-toolbar-title>Score: {{ score }}</v-toolbar-title>
             <v-spacer />
             <play-settings v-model="play_settings" />
-            <v-btn icon to="profile">
+            <v-btn icon to="profile" title="Saved Scores">
               <v-icon>mdi-content-save</v-icon>
             </v-btn>
             <v-spacer />
