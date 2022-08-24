@@ -1,5 +1,28 @@
 <template>
     <v-container fill-height>
+      <v-dialog
+        v-model="how_to_play"
+        width="500"
+      >
+        <v-card>
+          <v-card-title>
+            How to Play
+          </v-card-title>
+          <v-card-text>
+            Select the corresponding note displayed on the upper segment of the display using the Piano buttons on the bottom segment of the display. The game ends when you have made 3 mistakes, at which point the score is saved to your account if you are logged in.
+          </v-card-text>
+          <v-card-actions>
+          <v-spacer></v-spacer>
+            <v-btn
+              color="primary"
+              text
+              @click="how_to_play = false"
+            >
+              Close
+            </v-btn>
+          </v-card-actions>
+        </v-card>
+      </v-dialog>
       <v-flex fill-height class="d-flex flex-column">
         <v-card>
           <v-toolbar dense>
@@ -67,6 +90,7 @@ export default Vue.extend({
       selected_note: null as Note | null,
       score: 0,
       fails: 0,
+      how_to_play: true,
 
       play_settings: new PlaySettingsProps()
     }
