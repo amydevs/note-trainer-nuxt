@@ -15,3 +15,7 @@ A leitmotif is a recurring theme throughout a composition that is associated wit
 
 ### Melodic Features
 ![melodic features](https://upload.wikimedia.org/wikipedia/commons/0/0b/AllTheThingsYouAre-bar25thru36.jpg)
+
+<br>
+<br>
+More lessons coming soon...
