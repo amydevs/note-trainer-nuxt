@@ -166,7 +166,7 @@ export default Vue.extend({
         this.fails++;
       }
     },
-    play_again(final_score: number) {
+    play_again() {
       this.score = 0;
       this.fails = 0;
       this.refresh();
@@ -193,6 +193,14 @@ export default Vue.extend({
         })
       }
       return failed;
+    }
+  },
+  watch: {
+    play_settings: {
+      handler() {
+        this.play_again()
+      },
+      deep: true
     }
   }
 })

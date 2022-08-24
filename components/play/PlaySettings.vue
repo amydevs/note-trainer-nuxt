@@ -58,7 +58,7 @@
         three-line
         subheader
       >
-        <v-subheader>Gameplay Mode</v-subheader>
+        <v-subheader>General</v-subheader>
         <v-list-item>
           <v-list-item-action>
             <v-checkbox v-model="value.enable_audio"></v-checkbox>
@@ -68,7 +68,15 @@
             <v-list-item-subtitle>Enable the audio synthesizer.</v-list-item-subtitle>
           </v-list-item-content>
         </v-list-item>
+      </v-list>
 
+      <v-divider></v-divider>
+
+      <v-list
+        three-line
+        subheader
+      >
+        <v-subheader>Gameplay Mode</v-subheader>
         <v-list-item>
           <v-list-item-action>
             <v-checkbox v-model="perfect_pitch_mode"></v-checkbox>
