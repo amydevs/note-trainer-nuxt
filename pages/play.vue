@@ -60,7 +60,7 @@
           <v-card-title>
             Score: {{ score }}
           </v-card-title>
-          <v-btn @click="play_again(score)">
+          <v-btn @click="play_again()">
             OK
           </v-btn>
         </v-card>
