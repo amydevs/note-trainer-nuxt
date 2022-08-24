@@ -10,10 +10,10 @@
                 <v-btn color="primary" type="submit">
                   Login
                 </v-btn>
-                <!-- <v-btn @click="auth.password = show_passwd ? undefined : ''">
+                <v-btn @click="auth.password = show_passwd ? undefined : ''">
                   Login With Password
                 </v-btn>
-                <v-btn @click="handle_reset_pw">
+                <!-- <v-btn @click="handle_reset_pw">
                   Reset Password
                 </v-btn> -->
             </v-card-text>
@@ -48,7 +48,13 @@ export default Vue.extend({
         )
         if (error) throw error
 
-        alert("Check your email for the login link!")
+        if (this.auth.password === undefined) {
+          alert("Check your email for the login link!")
+        }
+        else {
+          alert("You're now signed in!")
+          this.$router.push("/")
+        }
 
         this.$accessor.saved.SET_USER(user);
 
