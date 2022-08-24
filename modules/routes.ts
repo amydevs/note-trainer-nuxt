@@ -12,6 +12,12 @@ export const routes = [
     show_in_nav: true
   },
   {
+    title: 'Learn',
+    path: '/learn',
+    icon: 'mdi-book',
+    show_in_nav: true
+  },
+  {
     title: 'Profile',
     path: '/profile',
     icon: 'mdi-account',
