@@ -64,7 +64,7 @@ export default Vue.extend({
         const { data, error } = await this.$supabase.auth.api.resetPasswordForEmail(
           this.auth.email,
           {
-            redirectTo: window.location.origin
+            redirectTo: `${window.location.origin}/pwreset`
           }
         )
         if (error) throw error

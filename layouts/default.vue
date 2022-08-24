@@ -72,6 +72,7 @@
 </template>
 
 <script lang="ts">
+import { match } from 'assert';
 import Vue from 'vue';
 import { routes } from '~/modules/routes';
 
@@ -106,12 +107,19 @@ export default Vue.extend({
 
     this.$accessor.saved.SET_USER(await this.$supabase.auth.user());
     this.$supabase.auth.onAuthStateChange((event, session) => {
-      if (event == "SIGNED_OUT") {
-        this.$accessor.saved.SET_USER(null);
-        console.log("Logged out...");
-      }
-      else {
-        this.$accessor.saved.SET_USER(session?.user);
+      console.log(event)
+      switch (event) {
+        case "SIGNED_OUT":
+          this.$accessor.saved.SET_USER(null);
+          console.log("Logged out...");
+          break;
+        case "SIGNED_IN":
+          this.$accessor.saved.SET_USER(session?.user);
+          break;
+        case "PASSWORD_RECOVERY":
+          break;
+        default:
+          break;
       }
     })
   },
