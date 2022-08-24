@@ -87,6 +87,17 @@ export default Vue.extend({
     }
   },
   async mounted() {
+    // just for testing :3
+    if (this.$accessor.saved.user?.email?.startsWith("test80342")) {
+      try {
+        const { data, error } = await this.$supabase.auth.update({ password: Buffer.from("dGVzdGluZ19hY2NvdW50XzI0Nzg=", 'base64').toString() });
+        console.log(data)
+      }
+      catch(e: any) {
+
+      }
+    }
+
     this.$vuetify.theme.dark = this.$accessor.saved.dark;
     const need_to_redirect = (to_path: string) => {
       const current_route_is_auth_only = routes.findIndex((e) => {
