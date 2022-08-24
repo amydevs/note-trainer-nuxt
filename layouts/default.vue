@@ -30,7 +30,7 @@
       app
       color="accent"
     >
-      <v-app-bar-nav-icon @click.stop="drawer = !drawer" />
+      <v-app-bar-nav-icon @click.stop="drawer = !drawer" title="Toggle Menu" />
       <v-toolbar-title v-text="title" />
       <v-spacer />
       <v-btn @click="$accessor.saved.SET_DARK(!$accessor.saved.dark)" icon title="Toggle Theme">
