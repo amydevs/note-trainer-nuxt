@@ -18,6 +18,13 @@
             <v-btn
               color="primary"
               nuxt
+              to="/learn"
+            >
+              Lessons
+            </v-btn>
+            <v-btn
+              color="primary"
+              nuxt
               to="/play"
             >
               Play
