@@ -208,17 +208,11 @@ export default Vue.extend({
 
 <style lang="scss" scoped>
   #noterender {
-    position: relative;
-    height: 0;
+    height: 45vh;
     width: 100%;
-    padding: 0;
-    padding-bottom: 45vh;
     :deep(svg) {
-      position: absolute;
-      height: 100%;
-      width: 100%;
-      left: 0;
-      top: 0;
+      height: 100% !important;
+      width: 100% !important;
     }
   }
   .piano_wrapper {
