@@ -6,7 +6,7 @@
           <v-form @submit.prevent="handle_login">
             <v-card-text>
                 <v-text-field label="Email" v-model="auth.email" />
-                <v-text-field label="Password" v-if="show_passwd" v-model="auth.password" />
+                <v-text-field label="Password" type="password" v-if="show_passwd" v-model="auth.password" />
                 <v-btn color="primary" type="submit">
                   Login
                 </v-btn>
