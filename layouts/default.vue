@@ -82,7 +82,7 @@ export default Vue.extend({
       drawer: false,
       fixed: false,
       miniVariant: false,
-      title: 'Vuetify.js'
+      title: 'Note-Trainer'
     }
   },
   async mounted() {
