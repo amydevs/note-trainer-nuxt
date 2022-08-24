@@ -13,6 +13,9 @@
                 <v-btn @click="auth.password = show_passwd ? undefined : ''">
                   Login With Password
                 </v-btn>
+                <v-btn @click="handle_reset_pw">
+                  Reset Password
+                </v-btn>
             </v-card-text>
           </v-form>
         </v-card>
@@ -49,6 +52,24 @@ export default Vue.extend({
 
         this.$accessor.saved.SET_USER(user);
 
+      } catch (error: any) {
+        alert(error.error_description || error.message)
+      } finally {
+        this.$accessor.SET_LOADING(false);
+      }
+    },
+    async handle_reset_pw() {
+      try {
+        this.$accessor.SET_LOADING(true);
+        const { data, error } = await this.$supabase.auth.api.resetPasswordForEmail(
+          this.auth.email,
+          {
+            redirectTo: window.location.origin
+          }
+        )
+        if (error) throw error
+
+        alert("Check your email for the password reset link!")
       } catch (error: any) {
         alert(error.error_description || error.message)
       } finally {
