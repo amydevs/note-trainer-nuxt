@@ -35,7 +35,7 @@
             <v-spacer />
             <v-toolbar-title>Mistakes: {{ fails }}</v-toolbar-title>
           </v-toolbar>
-          <note-renderer id="noterender" ref="noterender">
+          <note-renderer v-show="play_settings.enable_render" id="noterender" ref="noterender">
             <div class="d-flex overlay pa-3">
             </div>
           </note-renderer>
@@ -129,12 +129,6 @@ export default Vue.extend({
         .addTimeSignature('4/4');
 
       vf.draw();
-      try {
-        this.synth.triggerAttackRelease(note.to_easyscore(accidental), "8n");
-      }
-      catch {
-        this.$tone.start()
-      }
 
       if (note_render_el.firstChild) {
         try {
@@ -144,6 +138,15 @@ export default Vue.extend({
           svg_el.setAttribute("viewBox", view_box.join(" "))
         }
         catch (_) {}
+      }
+
+      if (this.play_settings.enable_audio) {
+        try {
+          this.synth.triggerAttackRelease(note.to_easyscore(accidental), "8n");
+        }
+        catch {
+          this.$tone.start()
+        }
       }
     },
     randomizer() {
