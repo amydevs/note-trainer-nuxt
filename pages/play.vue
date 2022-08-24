@@ -16,7 +16,7 @@
             <v-btn
               color="primary"
               text
-              @click="how_to_play = false"
+              @click="() => { how_to_play = false; $tone.start() }"
             >
               Close
             </v-btn>
@@ -90,7 +90,10 @@ export default Vue.extend({
       selected_note: null as Note | null,
       score: 0,
       fails: 0,
+
       how_to_play: true,
+
+      synth: new this.$tone.Synth().toDestination(),
 
       play_settings: new PlaySettingsProps()
     }
@@ -126,6 +129,12 @@ export default Vue.extend({
         .addTimeSignature('4/4');
 
       vf.draw();
+      try {
+        this.synth.triggerAttackRelease(note.to_easyscore(accidental), "8n");
+      }
+      catch {
+        this.$tone.start()
+      }
 
       if (note_render_el.firstChild) {
         try {
