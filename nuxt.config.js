@@ -53,6 +53,7 @@ export default {
       supabaseKey: process.env.SUPABASE_KEY,
       supabaseUrl: process.env.SUPABASE_URL
     }],
+    '@nuxt/content'
   ],
 
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
