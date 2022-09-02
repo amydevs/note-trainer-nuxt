@@ -97,6 +97,6 @@ export default {
   build: {
   },
   router: {
-    base: '/note-trainer-nuxt/'
+    base: process.env.VERCEL ? "" : '/note-trainer-nuxt/'
   }
 }
