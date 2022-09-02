@@ -72,7 +72,7 @@ jobs:
       - name: Static HTML export with Nuxt
         run: ${{ steps.detect-package-manager.outputs.manager }} run generate
         env:
-          SUPABASE_KEY: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9"
+          SUPABASE_KEY: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1ucGhtemRwa2JteW12Z2hqY2Z5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE2NDYyODk0MjAsImV4cCI6MTk2MTg2NTQyMH0.No3iRWht_YAkRRFEg0RGvZQigA9kOywgluHIdPunS8w"
           SUPABASE_URL: "https://mnphmzdpkbmymvghjcfy.supabase.co"
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v1
