@@ -8,8 +8,8 @@ export default {
 
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
-    titleTemplate: '%s - note-trainer-nuxt',
-    title: 'note-trainer-nuxt',
+    titleTemplate: '%s',
+    title: 'Note-Trainer',
     meta: [
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
@@ -28,6 +28,7 @@ export default {
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: [
     { src: '~/plugins/vexflow', ssr: false },
+    { src: '~/plugins/tone', ssr: false },
     { src: '~/plugins/vuex-persist', ssr: false }
   ],
 
@@ -53,6 +54,7 @@ export default {
       supabaseKey: process.env.SUPABASE_KEY,
       supabaseUrl: process.env.SUPABASE_URL
     }],
+    '@nuxt/content'
   ],
 
   // Axios module configuration: https://go.nuxtjs.dev/config-axios

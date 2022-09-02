@@ -1,18 +1,41 @@
 <template>
     <v-container fill-height>
+      <v-dialog
+        v-model="how_to_play"
+        width="500"
+      >
+        <v-card>
+          <v-card-title>
+            How to Play
+          </v-card-title>
+          <v-card-text>
+            Select the corresponding note displayed on the upper segment of the display using the Piano buttons on the bottom segment of the display. The game ends when you have made 3 mistakes, at which point the score is saved to your account if you are logged in.
+          </v-card-text>
+          <v-card-actions>
+          <v-spacer></v-spacer>
+            <v-btn
+              color="primary"
+              text
+              @click="() => { how_to_play = false; $tone.start() }"
+            >
+              Close
+            </v-btn>
+          </v-card-actions>
+        </v-card>
+      </v-dialog>
       <v-flex fill-height class="d-flex flex-column">
         <v-card>
           <v-toolbar dense>
             <v-toolbar-title>Score: {{ score }}</v-toolbar-title>
             <v-spacer />
             <play-settings v-model="play_settings" />
-            <v-btn icon to="profile">
+            <v-btn icon to="profile" title="Saved Scores">
               <v-icon>mdi-content-save</v-icon>
             </v-btn>
             <v-spacer />
             <v-toolbar-title>Mistakes: {{ fails }}</v-toolbar-title>
           </v-toolbar>
-          <note-renderer id="noterender" ref="noterender">
+          <note-renderer v-show="play_settings.enable_render" id="noterender" ref="noterender">
             <div class="d-flex overlay pa-3">
             </div>
           </note-renderer>
@@ -37,7 +60,7 @@
           <v-card-title>
             Score: {{ score }}
           </v-card-title>
-          <v-btn @click="play_again(score)">
+          <v-btn @click="play_again()">
             OK
           </v-btn>
         </v-card>
@@ -67,6 +90,10 @@ export default Vue.extend({
       selected_note: null as Note | null,
       score: 0,
       fails: 0,
+
+      how_to_play: true,
+
+      synth: new this.$tone.Synth().toDestination(),
 
       play_settings: new PlaySettingsProps()
     }
@@ -112,6 +139,15 @@ export default Vue.extend({
         }
         catch (_) {}
       }
+
+      if (this.play_settings.enable_audio) {
+        try {
+          this.synth.triggerAttackRelease(note.to_easyscore(accidental), "8n");
+        }
+        catch {
+          this.$tone.start()
+        }
+      }
     },
     randomizer() {
       let random_clefs = [
@@ -130,7 +166,7 @@ export default Vue.extend({
         this.fails++;
       }
     },
-    play_again(final_score: number) {
+    play_again() {
       this.score = 0;
       this.fails = 0;
       this.refresh();
@@ -158,23 +194,25 @@ export default Vue.extend({
       }
       return failed;
     }
+  },
+  watch: {
+    play_settings: {
+      handler() {
+        this.play_again()
+      },
+      deep: true
+    }
   }
 })
 </script>
 
 <style lang="scss" scoped>
   #noterender {
-    position: relative;
-    height: 0;
+    height: 45vh;
     width: 100%;
-    padding: 0;
-    padding-bottom: 45vh;
     :deep(svg) {
-      position: absolute;
-      height: 100%;
-      width: 100%;
-      left: 0;
-      top: 0;
+      height: 100% !important;
+      width: 100% !important;
     }
   }
   .piano_wrapper {

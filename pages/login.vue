@@ -5,10 +5,17 @@
         <v-card>
           <v-form @submit.prevent="handle_login">
             <v-card-text>
-                <v-text-field label="Email" v-model="email" />
-                <v-btn type="submit">
-                  Login
+                <v-text-field label="Email" v-model="auth.email" />
+                <v-text-field label="Password" type="password" v-if="show_passwd" v-model="auth.password" />
+                <v-btn color="primary" type="submit">
+                  {{ show_passwd ? "Login" : "Login with Magic Link" }}
                 </v-btn>
+                <v-btn @click="auth.password = show_passwd ? undefined : ''">
+                  Use Password
+                </v-btn>
+                <!-- <v-btn @click="handle_reset_pw">
+                  Reset Password
+                </v-btn> -->
             </v-card-text>
           </v-form>
         </v-card>
@@ -21,7 +28,10 @@ import Vue, { computed } from 'vue'
 export default Vue.extend({
   data() {
     return {
-      email: '',
+      auth: {
+        email: '',
+        password: undefined as string | undefined
+      }
     }
   },
 
@@ -31,16 +41,20 @@ export default Vue.extend({
       try {
         this.$accessor.SET_LOADING(true);
         const { user, error } = await this.$supabase.auth.signIn(
-          {
-             email: this.email,
-          },
+          this.auth,
           {
             redirectTo: window.location.origin
           }
         )
         if (error) throw error
 
-        alert("Check your email for the login link!")
+        if (this.auth.password === undefined) {
+          alert("Check your email for the login link!")
+        }
+        else {
+          alert("You're now signed in!")
+          this.$router.push("/")
+        }
 
         this.$accessor.saved.SET_USER(user);
 
@@ -49,6 +63,29 @@ export default Vue.extend({
       } finally {
         this.$accessor.SET_LOADING(false);
       }
+    },
+    async handle_reset_pw() {
+      try {
+        this.$accessor.SET_LOADING(true);
+        const { data, error } = await this.$supabase.auth.api.resetPasswordForEmail(
+          this.auth.email,
+          {
+            redirectTo: `${window.location.origin}/pwreset`
+          }
+        )
+        if (error) throw error
+
+        alert("Check your email for the password reset link!")
+      } catch (error: any) {
+        alert(error.error_description || error.message)
+      } finally {
+        this.$accessor.SET_LOADING(false);
+      }
+    }
+  },
+  computed: {
+    show_passwd(): boolean {
+      return Boolean(this.auth.password || this.auth.password === '')
     }
   }
 })

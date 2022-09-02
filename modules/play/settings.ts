@@ -2,6 +2,9 @@ import { Note } from "../note";
 import { MinMaxNote } from "../note/randomizer";
 
 export class PlaySettingsProps {
+  enable_render = true;
+  enable_audio = true;
+
   enable_treble = true;
   enable_bass = true;
   min_max_treble = new MinMaxNote(new Note("A", 4),new Note("C", 5));

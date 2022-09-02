@@ -21,6 +21,18 @@
     <v-card class="mt-3">
       <v-toolbar dense>
         <v-toolbar-title>
+          Improvement Summary Graph
+        </v-toolbar-title>
+      </v-toolbar>
+      <v-sparkline
+        :labels="scores.map(e => e.score)"
+        :value="scores.map(e => e.score)"
+        auto-draw
+      ></v-sparkline>
+    </v-card>
+    <v-card class="mt-3">
+      <v-toolbar dense>
+        <v-toolbar-title>
           Saved Scores ({{ scores.length }})
         </v-toolbar-title>
       </v-toolbar>

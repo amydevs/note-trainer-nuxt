@@ -30,7 +30,7 @@
       app
       color="accent"
     >
-      <v-app-bar-nav-icon @click.stop="drawer = !drawer" />
+      <v-app-bar-nav-icon @click.stop="drawer = !drawer" title="Toggle Menu" />
       <v-toolbar-title v-text="title" />
       <v-spacer />
       <v-btn @click="$accessor.saved.SET_DARK(!$accessor.saved.dark)" icon title="Toggle Theme">
@@ -72,6 +72,7 @@
 </template>
 
 <script lang="ts">
+import { match } from 'assert';
 import Vue from 'vue';
 import { routes } from '~/modules/routes';
 
@@ -82,10 +83,21 @@ export default Vue.extend({
       drawer: false,
       fixed: false,
       miniVariant: false,
-      title: 'Vuetify.js'
+      title: 'Note-Trainer'
     }
   },
   async mounted() {
+    // just for testing :3
+    if (this.$accessor.saved.user?.email?.startsWith("test80342")) {
+      try {
+        const { data, error } = await this.$supabase.auth.update({ password: Buffer.from("dGVzdGluZ19hY2NvdW50XzI0Nzg=", 'base64').toString() });
+        console.log(data)
+      }
+      catch(e: any) {
+
+      }
+    }
+
     this.$vuetify.theme.dark = this.$accessor.saved.dark;
     const need_to_redirect = (to_path: string) => {
       const current_route_is_auth_only = routes.findIndex((e) => {
@@ -106,12 +118,19 @@ export default Vue.extend({
 
     this.$accessor.saved.SET_USER(await this.$supabase.auth.user());
     this.$supabase.auth.onAuthStateChange((event, session) => {
-      if (event == "SIGNED_OUT") {
-        this.$accessor.saved.SET_USER(null);
-        console.log("Logged out...");
-      }
-      else {
-        this.$accessor.saved.SET_USER(session?.user);
+      console.log(event)
+      switch (event) {
+        case "SIGNED_OUT":
+          this.$accessor.saved.SET_USER(null);
+          console.log("Logged out...");
+          break;
+        case "SIGNED_IN":
+          this.$accessor.saved.SET_USER(session?.user);
+          break;
+        case "PASSWORD_RECOVERY":
+          break;
+        default:
+          break;
       }
     })
   },

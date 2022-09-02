@@ -15,6 +15,7 @@
     "nuxt": "^2.15.8",
     "nuxt-supabase": "^2.3.1",
     "nuxt-typed-vuex": "^0.3.1",
+    "tone": "^14.8.40",
     "vexflow": "^4.0.3",
     "vue": "^2.6.14",
     "vue-server-renderer": "^2.6.14",
@@ -24,6 +25,7 @@
     "webpack": "^4.46.0"
   },
   "devDependencies": {
+    "@nuxt/content": "1.15.1",
     "@nuxt/types": "^2.15.8",
     "@nuxt/typescript-build": "^2.1.0",
     "@nuxtjs/vuetify": "^1.12.3",

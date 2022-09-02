@@ -10,6 +10,7 @@
         v-bind="attrs"
         v-on="on"
         icon
+        title="Settings"
       >
         <v-icon>mdi-cog</v-icon>
       </v-btn>
@@ -58,6 +59,42 @@
         three-line
         subheader
       >
+        <v-subheader>General</v-subheader>
+        <v-list-item>
+          <v-list-item-action>
+            <v-checkbox v-model="value.enable_audio"></v-checkbox>
+          </v-list-item-action>
+          <v-list-item-content>
+            <v-list-item-title>Enable Audio</v-list-item-title>
+            <v-list-item-subtitle>Enable the audio synthesizer.</v-list-item-subtitle>
+          </v-list-item-content>
+        </v-list-item>
+      </v-list>
+
+      <v-divider></v-divider>
+
+      <v-list
+        three-line
+        subheader
+      >
+        <v-subheader>Gameplay Mode</v-subheader>
+        <v-list-item>
+          <v-list-item-action>
+            <v-checkbox v-model="perfect_pitch_mode"></v-checkbox>
+          </v-list-item-action>
+          <v-list-item-content>
+            <v-list-item-title>Enable Perfect Pitch Training Mode</v-list-item-title>
+            <v-list-item-subtitle>Turn on perfect pitch training mode.</v-list-item-subtitle>
+          </v-list-item-content>
+        </v-list-item>
+      </v-list>
+
+      <v-divider></v-divider>
+
+      <v-list
+        three-line
+        subheader
+      >
         <v-subheader>Clefs</v-subheader>
         <v-list-item>
           <v-list-item-action>
@@ -100,6 +137,29 @@ export default Vue.extend({
     }
   },
   methods: {
+  },
+  watch: {
+    "value.enable_audio": function(e: boolean) {
+      if (!e) {
+        this.value.enable_render = true;
+      }
+    }
+  },
+  computed: {
+    perfect_pitch_mode: {
+      get(): boolean {
+        return this.value.enable_audio && !this.value.enable_render
+      },
+      set(e: boolean) {
+        if (e) {
+          this.value.enable_audio = true;
+          this.value.enable_render = false;
+        }
+        else {
+          this.value.enable_render = true;
+        }
+      }
+    }
   }
 })
 </script>
